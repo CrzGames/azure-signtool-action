@@ -22,7 +22,7 @@ jobs:
   build-and-sign:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Build application

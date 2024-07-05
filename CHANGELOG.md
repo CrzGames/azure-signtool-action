@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/CrzGames/azure-signtool-action/compare/v1.0.0...v1.0.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* remove log debug ([b4f4555](https://github.com/CrzGames/azure-signtool-action/commit/b4f4555f9befe9b298bf4bc1c6be61fa9c2ef137))
+
 ## 1.0.0 (2024-07-05)
 
 

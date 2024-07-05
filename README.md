@@ -29,7 +29,7 @@ jobs:
         run: ...
 
       - name: Sign files with AzureSignTool
-        uses: CrzGames/azure-signtool-action@v1.0.0
+        uses: CrzGames/azure-signtool-action@v1.0.1
         with:
           azure-key-vault-url: 'https://your-key-vault.vault.azure.net'
           azure-key-vault-client-id: ${{ secrets.AZURE_KEY_VAULT_APP_CLIENT_ID }}

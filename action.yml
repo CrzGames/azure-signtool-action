@@ -1,0 +1,182 @@
+name: 'Azure Sign Tool Action'
+description: 'GitHub Action to sign files using Azure Key Vault'
+inputs:
+  azure-key-vault-url:
+    description: 'The URL of the Azure Key Vault'
+    required: true
+  azure-key-vault-certificate:
+    description: 'The name of the certificate in Azure Key Vault'
+    required: true
+  azure-key-vault-client-id:
+    description: 'The Azure Key Vault client ID'
+    required: false
+  azure-key-vault-client-secret:
+    description: 'The Azure Key Vault client secret'
+    required: false
+  azure-key-vault-tenant-id:
+    description: 'The Azure Key Vault tenant ID'
+    required: false
+  azure-key-vault-accesstoken:
+    description: 'An access token used to authenticate to Azure'
+    required: false
+  azure-key-vault-managed-identity:
+    description: 'Use the ambient Managed Identity to authenticate to Azure'
+    required: false
+  description:
+    description: 'A description of the signed content'
+    required: false
+  description-url:
+    description: 'A URL with more information of the signed content'
+    required: false
+  timestamp-rfc3161:
+    description: 'The RFC3161 timestamp URL'
+    required: false
+  timestamp-authenticode:
+    description: 'The legacy Authenticode timestamp URL'
+    required: false
+  timestamp-digest:
+    description: 'The digest algorithm for the timestamp'
+    required: false
+    default: 'sha256'
+  file-digest:
+    description: 'The digest algorithm for the files'
+    required: false
+    default: 'sha256'
+  additional-certificates:
+    description: 'Paths to additional certificates'
+    required: false
+  verbose:
+    description: 'Include additional output in the log'
+    required: false
+    default: false
+  quiet:
+    description: 'Do not print output to the log'
+    required: false
+    default: false
+  continue-on-error:
+    description: 'Continue on error when signing multiple files'
+    required: false
+    default: false
+  input-file-list:
+    description: 'Path to a text file containing a list of files to sign'
+    required: false
+  skip-signed:
+    description: 'Skip files that are already signed'
+    required: false
+  files:
+    description: 'The paths to individual files to be signed'
+    required: false
+  recursive:
+    description: 'Recursively sign files in directories'
+    required: false
+    default: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout the action repository
+      uses: actions/checkout@v4
+      with:
+        repository: CrzGames/azure-signtool-action
+        path: action_repo
+
+    - name: Sign files using Azure Key Vault
+      env:
+        INPUT_AZURE_KEY_VAULT_URL: ${{ inputs.azure-key-vault-url }}
+        INPUT_AZURE_KEY_VAULT_CERTIFICATE: ${{ inputs.azure-key-vault-certificate }}
+        INPUT_AZURE_KEY_VAULT_CLIENT_ID: ${{ inputs.azure-key-vault-client-id }}
+        INPUT_AZURE_KEY_VAULT_CLIENT_SECRET: ${{ inputs.azure-key-vault-client-secret }}
+        INPUT_AZURE_KEY_VAULT_TENANT_ID: ${{ inputs.azure-key-vault-tenant-id }}
+        INPUT_AZURE_KEY_VAULT_ACCESSTOKEN: ${{ inputs.azure-key-vault-accesstoken }}
+        INPUT_AZURE_KEY_VAULT_MANAGED_IDENTITY: ${{ inputs.azure-key-vault-managed-identity }}
+        INPUT_DESCRIPTION: ${{ inputs.description }}
+        INPUT_DESCRIPTION_URL: ${{ inputs.description-url }}
+        INPUT_TIMESTAMP_RFC3161: ${{ inputs.timestamp-rfc3161 }}
+        INPUT_TIMESTAMP_AUTHENTICODE: ${{ inputs.timestamp-authenticode }}
+        INPUT_TIMESTAMP_DIGEST: ${{ inputs.timestamp-digest }}
+        INPUT_FILE_DIGEST: ${{ inputs.file-digest }}
+        INPUT_ADDITIONAL_CERTIFICATES: ${{ inputs.additional-certificates }}
+        INPUT_VERBOSE: ${{ inputs.verbose }}
+        INPUT_QUIET: ${{ inputs.quiet }}
+        INPUT_CONTINUE_ON_ERROR: ${{ inputs.continue-on-error }}
+        INPUT_INPUT_FILE_LIST: ${{ inputs.input-file-list }}
+        INPUT_SKIP_SIGNED: ${{ inputs.skip-signed }}
+        INPUT_FILES: ${{ inputs.files }}
+        INPUT_RECURSIVE: ${{ inputs.recursive }}
+      shell: pwsh
+      run: |
+        $args = @()
+        if ($env:INPUT_AZURE_KEY_VAULT_URL) { $args += "--azure-key-vault-url `"$($env:INPUT_AZURE_KEY_VAULT_URL)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_CERTIFICATE) { $args += "--azure-key-vault-certificate `"$($env:INPUT_AZURE_KEY_VAULT_CERTIFICATE)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_CLIENT_ID) { $args += "--azure-key-vault-client-id `"$($env:INPUT_AZURE_KEY_VAULT_CLIENT_ID)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_CLIENT_SECRET) { $args += "--azure-key-vault-client-secret `"$($env:INPUT_AZURE_KEY_VAULT_CLIENT_SECRET)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_TENANT_ID) { $args += "--azure-key-vault-tenant-id `"$($env:INPUT_AZURE_KEY_VAULT_TENANT_ID)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_ACCESSTOKEN) { $args += "--azure-key-vault-accesstoken `"$($env:INPUT_AZURE_KEY_VAULT_ACCESSTOKEN)`"" }
+        if ($env:INPUT_AZURE_KEY_VAULT_MANAGED_IDENTITY) { $args += "--azure-key-vault-managed-identity `"$($env:INPUT_AZURE_KEY_VAULT_MANAGED_IDENTITY)`"" }
+        if ($env:INPUT_DESCRIPTION) { $args += "--description `"$($env:INPUT_DESCRIPTION)`"" }
+        if ($env:INPUT_DESCRIPTION_URL) { $args += "--description-url `"$($env:INPUT_DESCRIPTION_URL)`"" }
+        if ($env:INPUT_TIMESTAMP_RFC3161) { $args += "--timestamp-rfc3161 `"$($env:INPUT_TIMESTAMP_RFC3161)`"" }
+        if ($env:INPUT_TIMESTAMP_AUTHENTICODE) { $args += "--timestamp-authenticode `"$($env:INPUT_TIMESTAMP_AUTHENTICODE)`"" }
+        if ($env:INPUT_TIMESTAMP_DIGEST) { $args += "--timestamp-digest `"$($env:INPUT_TIMESTAMP_DIGEST)`"" }
+        if ($env:INPUT_FILE_DIGEST) { $args += "--file-digest `"$($env:INPUT_FILE_DIGEST)`"" }
+        if ($env:INPUT_ADDITIONAL_CERTIFICATES) { $args += "--additional-certificates `"$($env:INPUT_ADDITIONAL_CERTIFICATES)`"" }
+        if ($env:INPUT_VERBOSE -eq 'true') { $args += "--verbose" }
+        if ($env:INPUT_QUIET -eq 'true') { $args += "--quiet" }
+        if ($env:INPUT_CONTINUE_ON_ERROR -eq 'true') { $args += "--continue-on-error" }
+        if ($env:INPUT_INPUT_FILE_LIST) { $args += "--input-file-list `"$($env:INPUT_INPUT_FILE_LIST)`"" }
+        if ($env:INPUT_SKIP_SIGNED -eq 'true') { $args += "--skip-signed" }
+
+        $fileList = @()
+        if ($env:INPUT_INPUT_FILE_LIST) {
+          Write-Host "Reading file list from: $env:INPUT_INPUT_FILE_LIST"
+          $fileList += Get-Content $($env:INPUT_INPUT_FILE_LIST) | ForEach-Object { $_.Trim() }
+        }
+
+        if ($env:INPUT_FILES) {
+          Write-Host "Processing files: $env:INPUT_FILES"
+          $filePaths = $env:INPUT_FILES.Split(" ")
+          foreach ($filePath in $filePaths) {
+            if (Test-Path $filePath -PathType Container) {
+              Write-Host "Processing directory: $filePath"
+              if ($env:INPUT_RECURSIVE -eq 'true') {
+                Write-Host "Recursively including files from: $filePath"
+                $fileList += Get-ChildItem -Path $filePath -Recurse -File | ForEach-Object { $_.FullName }
+              } else {
+                Write-Host "Including files from: $filePath"
+                $fileList += Get-ChildItem -Path $filePath -File | ForEach-Object { $_.FullName }
+              }
+            } elseif (Test-Path $filePath -PathType Leaf) {
+              Write-Host "Including file: $filePath"
+              $fileList += Get-Item $filePath | ForEach-Object { $_.FullName }
+            } else {
+              Write-Error "Path not found: $filePath"
+              exit 1
+            }
+          }
+        }
+
+        $fileList = $fileList | ForEach-Object { "`"$($_)`"" }
+        $fileList = $fileList -join ' '
+
+        $signToolPath = "${{ github.action_path }}/binarie/AzureSignTool.exe"
+        
+        if (Test-Path $signToolPath) {
+          Write-Host "Running AzureSignTool with the following command:"
+          $fullArguments = "sign $fileList $args"
+          Write-Host "Start-Process -FilePath $signToolPath -ArgumentList $fullArguments"
+
+          $process = Start-Process -FilePath $signToolPath -ArgumentList $fullArguments -Wait -PassThru -NoNewWindow -RedirectStandardOutput "stdout.txt" -RedirectStandardError "stderr.txt"
+          
+          $stdout = Get-Content "stdout.txt" | Out-String
+          $stderr = Get-Content "stderr.txt" | Out-String
+
+          Write-Host "AzureSignTool Standard Output: $stdout"
+          Write-Host "AzureSignTool Standard Error: $stderr"
+
+          if ($process.ExitCode -ne 0) {
+            Write-Host "AzureSignTool failed with exit code $($process.ExitCode)."
+            exit $process.ExitCode
+          }
+        } else {
+          Write-Error "AzureSignTool.exe not found at $signToolPath"
+          exit 1
+        }

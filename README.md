@@ -63,7 +63,7 @@ jobs:
 
 - `files [required: possibly]`: The paths to individual files, directories, or file patterns to be signed. Multiple paths can be specified, separated by spaces. This can include specific files, directories, or patterns such as *.exe.
 
-- `recursive [required: possibly]`: Recursively sign files in directories. If set to true, the action will search for files to sign in all subdirectories of any directories specified in the files parameter.
+- `recursive [required: possibly]`: Recursively sign files in directories. If set to true, the action will search for files to sign in all subdirectories of any directories specified in the `files` parameter.
 
 - `azure-key-vault-client-id [required: possibly]`: This is the client ID used to authenticate to Azure, which will be used to generate an access token. This parameter is not required if an access token is supplied directly with the `azure-key-vault-accesstoken` option. If this parameter is supplied, `azure-key-vault-client-secret` and `azure-key-vault-tenant-id` must be supplied as well.
 

@@ -127,25 +127,19 @@ runs:
 
         $fileList = @()
         if ($env:INPUT_INPUT_FILE_LIST) {
-          Write-Host "Reading file list from: $env:INPUT_INPUT_FILE_LIST"
           $fileList += Get-Content $($env:INPUT_INPUT_FILE_LIST) | ForEach-Object { $_.Trim() }
         }
 
         if ($env:INPUT_FILES) {
-          Write-Host "Processing files: $env:INPUT_FILES"
           $filePaths = $env:INPUT_FILES.Split(" ")
           foreach ($filePath in $filePaths) {
             if (Test-Path $filePath -PathType Container) {
-              Write-Host "Processing directory: $filePath"
               if ($env:INPUT_RECURSIVE -eq 'true') {
-                Write-Host "Recursively including files from: $filePath"
                 $fileList += Get-ChildItem -Path $filePath -Recurse -File | ForEach-Object { $_.FullName }
               } else {
-                Write-Host "Including files from: $filePath"
                 $fileList += Get-ChildItem -Path $filePath -File | ForEach-Object { $_.FullName }
               }
             } elseif (Test-Path $filePath -PathType Leaf) {
-              Write-Host "Including file: $filePath"
               $fileList += Get-Item $filePath | ForEach-Object { $_.FullName }
             } else {
               Write-Error "Path not found: $filePath"

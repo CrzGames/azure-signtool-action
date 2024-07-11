@@ -125,9 +125,7 @@ The exit code is an HRESULT. Successfully signing produces a result of S_OK ("0"
 <br />
 
 ## Requirements
-
-Windows >= 10 or Windows Server >= 2016 is required. Some features require later versions of Windows. <br />
-Runners github-actions compatible : windows-2019, windows-2022 or windows-latest.
+Runners github-actions compatible : windows-2022 or windows-latest.
 
 <br />
 

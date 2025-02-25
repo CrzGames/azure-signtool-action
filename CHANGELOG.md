@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/CrzGames/azure-signtool-action/compare/v1.0.1...v1.1.0) (2025-02-25)
+
+
+### Features
+
+* upgrade AzureSignTool v5.0.0 to 6.0.1 ([96fcc56](https://github.com/CrzGames/azure-signtool-action/commit/96fcc568eb78f72cfcbebf24514c8baa48eccd7b))
+
 ## [1.0.1](https://github.com/CrzGames/azure-signtool-action/compare/v1.0.0...v1.0.1) (2024-07-05)
 
 

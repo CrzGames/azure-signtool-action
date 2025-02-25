@@ -4,7 +4,7 @@
 ## Description
 Azure Sign Tool is similar to `signtool` in the Windows SDK, with the major difference being that it uses Azure Key Vault for performing the signing process. The usage is similar to `signtool`, except with a limited set of options for signing and options for authenticating to Azure Key Vault. <br />
 
-The action uses the pre-compiled AzureSignTool v5.0 binary: https://github.com/vcsjones/AzureSignTool/tree/v5.0.0
+The action uses the pre-compiled AzureSignTool v6.0.1 binary: https://github.com/vcsjones/AzureSignTool/tree/v6.0.1
 
 <br /><br /><br />
 
